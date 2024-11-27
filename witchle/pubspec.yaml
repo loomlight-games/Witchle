@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  equatable: ^2.0.3
   flutter:
     sdk: flutter
 
@@ -37,7 +38,6 @@ dependencies:
   cupertino_icons: ^1.0.8
 
 dev_dependencies:
-  equatable: ^2.0.3
   flip_card: ^0.6.0
   
   flutter_test:
