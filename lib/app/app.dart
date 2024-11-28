@@ -16,7 +16,11 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Witchle',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: screenBgColor),
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: screenBgColor,
+        fontFamily: 'Irish Grover',
+      ),
       home: const GameScreen(),
     );
   }

@@ -230,7 +230,7 @@ class _GameScreenState extends State<GameScreen> {
             onDeleteTapped: _onDeleteTapped,
             onEnterTapped: _onEnterTapped,
             letters: _keyboardLetters,
-          )
+          ),
         ],
       )
     );
