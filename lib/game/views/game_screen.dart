@@ -1,60 +1,73 @@
-import 'package:flutter/material.dart';
-import 'package:witchle/app/app_colors.dart';
-import 'package:witchle/game/data/word_list.dart';
 import 'package:witchle/game/witchle.dart';
-import 'package:flip_card/flip_card.dart';
-import 'dart:math';
 
+// Todo: sidebar with Loomlight info
+// Todo: another board with 6 letter words, horizontally scrollable
+
+// Status of game
 enum GameStatus {playing, submitting, lost, won}
 
+/// {@template GameScreen}
+/// Represents the main game screen in the application. 
+/// It creates an instance of _GameScreenState to manage its state.
+/// {@endtemplate}
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
 
   @override
+  // Returns an instance of the 
   State<GameScreen> createState() => _GameScreenState();
 }
 
+/// {@template _GameScreenState}
+/// Contaisn the logic and UI of the game screen
+/// {@endtemplate}
 class _GameScreenState extends State<GameScreen> {
-  // Properties
+  // PROPERTIES ////////////////////////////////////////////////////////////
+  
   GameStatus _gameStatus = GameStatus.playing;
 
   int numLetters = 5,
     numGuesses = 6,
-    _currentWordIndex = 0;
+    _currentWordIndex = 0; // Current word index being constructed
 
   Word? get _currentWord =>
-    _currentWordIndex < _board.length ? _board[_currentWordIndex] : null;
+    _currentWordIndex < board.length ? board[_currentWordIndex] : null;
 
-  Word _solution = Word.fromString(
-    fiveLetterWords[Random().nextInt(fiveLetterWords.length)].toUpperCase(),
+  Word _solution = Word.fromString( // Target word to guess
+    // Random from list
+    // Todo: implement 6 letters mode
+    fiveLetterWords[Random().nextInt(fiveLetterWords.length)].toUpperCase(), 
   );
 
-  //late List<Word> _board;
-  final List<Word> _board = List.generate( 
-    6,
-    (_) => Word(letters: List.generate(5, (_) => Letter.empty()))
+  late List<Word> board = List.generate( 
+    numGuesses,
+    (_) => Word(letters: List.generate(numLetters, (_) => Letter.empty()))
   );
 
-  final List<List<GlobalKey<FlipCardState>>> _flipCardKeys = List.generate(
-    6, 
-    (_) => List.generate(5, (_) => GlobalKey<FlipCardState>()),
+  late List<List<GlobalKey<FlipCardState>>> flipCardKeys = List.generate(
+    numGuesses, 
+    (_) => List.generate(numLetters, (_) => GlobalKey<FlipCardState>()),
     );
 
   final Set<Letter> _keyboardLetters = {};
 
-  // Methods
+  // METHODS ////////////////////////////////////////////////////////////////
+  
+  // Adds a letter to the current word if the game is in the playing state
   void _onKeyTapped(String val){
     if(_gameStatus == GameStatus.playing){
       setState(() => _currentWord?.addLetter(val));
     }
   }
   
+  // Removes a letter from the current word
   void _onDeleteTapped(){
     if(_gameStatus == GameStatus.playing){
-      setState(() => _currentWord?.removeLetter);
+      setState(() => _currentWord?.removeLetter); // ! NOT WORKING
     }
   }
   
+  // Checks the current word against the solution and updates the game state
   Future<void> _onEnterTapped() async { // Async for flipcards to work
     if(_gameStatus == GameStatus.playing // Is playing
       && _currentWord != null 
@@ -78,17 +91,17 @@ class _GameScreenState extends State<GameScreen> {
         );
 
         final letter = _keyboardLetters.firstWhere(
-          (e) => e.val == currentWordLetter.val,
+          (e) => e.value == currentWordLetter.value,
           orElse: () => Letter.empty()
         );
         if (letter.status != LetterStatus.correct){
-          _keyboardLetters.removeWhere((e) => e.val == currentWordLetter.val);
+          _keyboardLetters.removeWhere((e) => e.value == currentWordLetter.value);
           _keyboardLetters.add(_currentWord!.letters[i]);
         }
 
         await Future.delayed(
           const Duration(milliseconds: 150),
-          () => _flipCardKeys[_currentWordIndex][i].currentState?.toggleCard(),
+          () => flipCardKeys[_currentWordIndex][i].currentState?.toggleCard(),
         );
       }
 
@@ -96,6 +109,7 @@ class _GameScreenState extends State<GameScreen> {
     }
   }
 
+  // Determines if the player has won or lost and displays a message
   void _checkIfWinOrLoss(){
     // The word is the same as the solution
     if (_currentWord!.wordString == _solution.wordString){
@@ -117,20 +131,21 @@ class _GameScreenState extends State<GameScreen> {
           action: SnackBarAction(
             onPressed: _restart,
             textColor: Colors.white,
-            label: 'New Game'
+            label: 'Otra palabra',
+            backgroundColor: lighterCorrectColor,
           )
         )
       );
-    } else if (_currentWordIndex + 1 >= _board.length){
+    } else if (_currentWordIndex + 1 >= board.length){
       _gameStatus = GameStatus.lost;
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           dismissDirection: DismissDirection.none,
           duration: const Duration(days: 1),
-          backgroundColor: correctColor,
+          backgroundColor: incorrectColor,
           content: Text(
-            '¡Has fallado! Solución: ${_solution.wordString}',
+            'Has fallado. Solución: ${_solution.wordString.toUpperCase()}',
             style: const TextStyle(
               color: Colors.white
             ),
@@ -138,7 +153,8 @@ class _GameScreenState extends State<GameScreen> {
           action: SnackBarAction(
             onPressed: _restart,
             textColor: Colors.white,
-            label: 'New Game'
+            label: 'Otra palabra',
+            backgroundColor: lighterIncorrectColor,
           )
         )
       );
@@ -150,11 +166,12 @@ class _GameScreenState extends State<GameScreen> {
     _currentWordIndex ++;
   }
 
+  // Resets the game state for a new round
   void _restart(){
     setState(() {
       _gameStatus = GameStatus.playing;
       _currentWordIndex = 0;
-      _board..clear()..addAll(
+      board..clear()..addAll(
         List.generate(
           numGuesses,
           (_) => Word(letters: List.generate(numLetters, (_) => Letter.empty())),
@@ -163,52 +180,51 @@ class _GameScreenState extends State<GameScreen> {
       _solution = Word.fromString(
         fiveLetterWords[Random().nextInt(fiveLetterWords.length)].toUpperCase(),
       );
-      _flipCardKeys
+      flipCardKeys
       ..clear()
       ..addAll(
         List.generate(
-          6,
-          (_) => List.generate(5, (_)=> GlobalKey<FlipCardState>())
+          numGuesses,
+          (_) => List.generate(numLetters, (_)=> GlobalKey<FlipCardState>())
         ),
       );
       _keyboardLetters.clear();
     });
   }
-
-  // void emptyBoard(){
-  //   List.generate( // Creates spaces in list
-  //     numGuesses,
-  //     (_) => Word(letters: List.generate(numLetters, (_) => Letter.empty())),
-  //   );
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   emptyBoard();
-  // }
   
+  // WIDGET /////////////////////////////////////////////////////////////////
   @override
+  // Uses a Scaffold widget to create a layout with an AppBar and a body 
+  // containing a game board and a keyboard.
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar( // Centered title and transparent background
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text(
           'WITCHLE',
           style: TextStyle(
-            fontSize: 36,
+            fontSize: 50,
             fontWeight: FontWeight.bold,
-            letterSpacing: 4,
+            letterSpacing: 5,
           )
         )
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Board(board: _board, flipCardKeys: _flipCardKeys),
-          const SizedBox(height: 80),
+          const Text(
+          '¡Adivina la palabra!',
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.normal,
+              letterSpacing: 2,
+            ),
+          ),
+          const SizedBox(height: 40), // Spacing box between
+          Board(words: board, flipCards: flipCardKeys),
+          const SizedBox(height: 40), // Spacing box between
           Keyboard(
             onKeyTapped: _onKeyTapped,
             onDeleteTapped: _onDeleteTapped,
