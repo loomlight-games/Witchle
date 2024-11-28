@@ -26,7 +26,7 @@ class _GameScreenState extends State<GameScreen> {
   
   GameStatus _gameStatus = GameStatus.playing;
 
-  int numLetters = 5,
+  int numLetters = 6,
     numGuesses = 6,
     _currentWordIndex = 0; // Current word index being constructed
 
@@ -36,7 +36,7 @@ class _GameScreenState extends State<GameScreen> {
   Word _solution = Word.fromString( // Target word to guess
     // Random from list
     // Todo: implement 6 letters mode
-    fiveLetterWords[Random().nextInt(fiveLetterWords.length)].toUpperCase(), 
+    sixLetterWords[Random().nextInt(sixLetterWords.length)].toUpperCase(), 
   );
 
   late List<Word> board = List.generate( 
@@ -171,15 +171,19 @@ class _GameScreenState extends State<GameScreen> {
     setState(() {
       _gameStatus = GameStatus.playing;
       _currentWordIndex = 0;
+      _keyboardLetters.clear();
+
+      _solution = Word.fromString(
+        sixLetterWords[Random().nextInt(sixLetterWords.length)].toUpperCase(),
+      );
+
       board..clear()..addAll(
         List.generate(
           numGuesses,
           (_) => Word(letters: List.generate(numLetters, (_) => Letter.empty())),
         ),
       );
-      _solution = Word.fromString(
-        fiveLetterWords[Random().nextInt(fiveLetterWords.length)].toUpperCase(),
-      );
+      
       flipCardKeys
       ..clear()
       ..addAll(
@@ -188,7 +192,6 @@ class _GameScreenState extends State<GameScreen> {
           (_) => List.generate(numLetters, (_)=> GlobalKey<FlipCardState>())
         ),
       );
-      _keyboardLetters.clear();
     });
   }
   
@@ -207,7 +210,7 @@ class _GameScreenState extends State<GameScreen> {
           style: TextStyle(
             fontSize: 50,
             fontWeight: FontWeight.bold,
-            letterSpacing: 5,
+            letterSpacing: 15,
           )
         )
       ),
