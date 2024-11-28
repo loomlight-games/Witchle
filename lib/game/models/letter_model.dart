@@ -1,25 +1,22 @@
 import 'package:witchle/game/witchle.dart';
 
 // Status of letter
-enum LetterStatus {
-  initial,
-  notInWord,
-  inWord, 
-  correct}
+enum LetterStatus { initial, notInWord, inWord, correct }
 
 /// {@template Letter}
 /// Letter with an state and colors according to it
 /// {@endtemplate}
-class Letter extends Equatable{ // Equatable: A base class to facilitate [operator ==] and [hashCode] overrides
+class Letter extends Equatable {
+  // Equatable: A base class to facilitate [operator ==] and [hashCode] overrides
   // PROPERTIES ////////////////////////////////////////////////////////////
-  
+
   final String value; // Letter it is
-  
+
   final LetterStatus status;
-  
-  Color get backgroundColor{
+
+  Color get backgroundColor {
     // Color according to status
-    switch (status){
+    switch (status) {
       case LetterStatus.initial:
         return Colors.transparent;
       case LetterStatus.notInWord:
@@ -32,10 +29,10 @@ class Letter extends Equatable{ // Equatable: A base class to facilitate [operat
         return Colors.transparent;
     }
   }
-  
-  Color get borderColor{
+
+  Color get borderColor {
     // Color according to status
-    switch (status){
+    switch (status) {
       case LetterStatus.initial:
         return Colors.grey;
       default:
@@ -44,10 +41,11 @@ class Letter extends Equatable{ // Equatable: A base class to facilitate [operat
   }
 
   @override
-  List<Object> get props => [value,status];// List of properties needed to check Equatable
+  List<Object> get props =>
+      [value, status]; // List of properties needed to check Equatable
 
   // CONSTRUCTORS ///////////////////////////////////////////////////////////
-  
+
   // Initializer
   const Letter({
     required this.value, // Must specify
@@ -55,20 +53,20 @@ class Letter extends Equatable{ // Equatable: A base class to facilitate [operat
   });
 
   // Factory constructor for empty word
-  factory Letter.empty() => const Letter(value:'');
+  factory Letter.empty() => const Letter(value: '');
 
   // METHODS ////////////////////////////////////////////////////////////////
-  
-  // Creates a new instance of Letter with updated values for val and status, 
+
+  // Creates a new instance of Letter with updated values for val and status,
   // while retaining the original values if new ones are not provided.
   Letter copyWith({
     String? val,
     LetterStatus? status,
-  }){
-    // Returns new letter 
+  }) {
+    // Returns new letter
     return Letter(
-      value: val?? value, // This value if not given
-      status: status?? this.status, // This status if not given
+      value: val ?? value, // This value if not given
+      status: status ?? this.status, // This status if not given
     );
   }
 }

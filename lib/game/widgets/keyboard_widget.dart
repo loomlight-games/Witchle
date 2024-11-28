@@ -4,7 +4,7 @@ import 'package:witchle/game/witchle.dart';
 const _qwerty = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ'],
-  ['PROBAR','Z', 'X', 'C', 'V', 'B', 'N', 'M', 'BORRAR']
+  ['PROBAR', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'BORRAR']
 ];
 
 /// {@template Keyboard}
@@ -19,7 +19,7 @@ class Keyboard extends StatelessWidget {
   final VoidCallback onEnterTapped; // Enter key callback
 
   // CONSTRUCTORS ///////////////////////////////////////////////////////////
-  
+
   // Initializer
   const Keyboard({
     super.key,
@@ -36,36 +36,39 @@ class Keyboard extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: _qwerty // Content of keyboard
-        .map( // Iterates in _qwerty
-          (keyRow) => Row( // Each line is a row
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: keyRow
-            .map( // Iterates in the row
-              (letter) { // Each letter
-                if (letter == 'BORRAR'){ 
+          .map(
+            // Iterates in _qwerty
+            (keyRow) => Row(
+              // Each line is a row
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: keyRow.map(// Iterates in the row
+                  (letter) {
+                // Each letter
+                if (letter == 'BORRAR') {
                   // Delete callback
                   return _KeyboardButton.delete(onTap: onDeleteTapped);
-                } else if (letter == 'PROBAR'){ // Todo: enable only when word is filled
+                } else if (letter == 'PROBAR') {
+                  // TODO: enable only when word is filled
                   // Enter call back
                   return _KeyboardButton.enter(onTap: onEnterTapped);
-                } else { 
+                } else {
                   final letterKey = letters.firstWhere(
                     (e) => e.value == letter,
                     orElse: () => Letter.empty(),
                   );
 
                   return _KeyboardButton(
-                    // Normal key callback
-                    onTap: () => onKeyTapped(letter),
-                    letter: letter,
-                    backGroundColor: letterKey != Letter.empty()?
-                      letterKey.backgroundColor : buttonInitialColor 
-                  );
+                      // Normal key callback
+                      onTap: () => onKeyTapped(letter),
+                      letter: letter,
+                      backGroundColor: letterKey != Letter.empty()
+                          ? letterKey.backgroundColor
+                          : buttonInitialColor);
                 }
-              }
-            ).toList(),
-          ),
-        ).toList(),
+              }).toList(),
+            ),
+          )
+          .toList(),
     );
   }
 }
@@ -82,67 +85,67 @@ class _KeyboardButton extends StatelessWidget {
   final String letter;
 
   // CONSTRUCTORS ///////////////////////////////////////////////////////////
-  
+
   // Initializer
   const _KeyboardButton({
-    this.height = 45, // TODO: make this a variable
-    this.width = 35, // TODO: make this a variable
+    this.height = 45,
+    this.width = 36,
     required this.onTap,
     required this.backGroundColor,
     required this.letter,
   });
 
   // Factory constructor for delete button
-  factory _KeyboardButton.delete({ //! NOT WORKING bc is not implemented
+  factory _KeyboardButton.delete({
+    //FIXME: NOT WORKING bc is not implemented
     required VoidCallback onTap,
   }) =>
-    _KeyboardButton(
-      width: 56, // TODO: make this a variable
-      onTap: onTap,
-      backGroundColor: specialButtonColor,
-      letter: 'BORRAR',
-  );
+      _KeyboardButton(
+        width: 56, // Todo: make this a variable
+        onTap: onTap,
+        backGroundColor: specialButtonColor,
+        letter: 'BORRAR',
+      );
 
   // Factory constructor for enter button
   factory _KeyboardButton.enter({
     required VoidCallback onTap,
   }) =>
-    _KeyboardButton(
-      width: 56, // TODO: make this a variable
-      onTap: onTap,
-      backGroundColor: specialButtonColor,
-      letter: 'PROBAR',
-  );
+      _KeyboardButton(
+        width: 56, // Todo: make this a variable
+        onTap: onTap,
+        backGroundColor: inactiveButtonColor,
+        letter: 'PROBAR',
+      );
 
   // WIDGET /////////////////////////////////////////////////////////////////
-  // Represents a button with a specific style and behavior. It uses Flutter's 
+  // Represents a button with a specific style and behavior. It uses Flutter's
   // Material and InkWell widgets to provide a visual and interactive button experience
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 4,
-        horizontal: 2,
-      ),
-      child: Material(
-        color: backGroundColor,
-        borderRadius: BorderRadius.circular(4),
-        child: InkWell( // Handles tap interactions with a bloom effect
-          onTap: onTap, // Callback function triggered when the button is tapped.
-          child: Container(
-            height: height,
-            width: width,
-            alignment: Alignment.center,
-            child: Text(
-              letter,
-              style: const TextStyle(
-                fontSize: 12, // TODO: make this a variable and differenciate for special keys
-                fontWeight: FontWeight.w600,
-              )
-            )
-          ),
-        )
-      )
-    );
+        padding: const EdgeInsets.symmetric(
+          vertical: 4,
+          horizontal: 2,
+        ),
+        child: Material(
+            color: backGroundColor,
+            borderRadius: BorderRadius.circular(4),
+            child: InkWell(
+              // Handles tap interactions with a bloom effect
+              onTap:
+                  onTap, // Callback function triggered when the button is tapped.
+              child: Container(
+                  height: height,
+                  width: width,
+                  alignment: Alignment.center,
+                  child: FittedBox(
+                      // To adjust letter to space
+                      child: Text(letter,
+                          style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w600,
+                          )))),
+            )));
   }
 }

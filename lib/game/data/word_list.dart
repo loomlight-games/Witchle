@@ -1,5 +1,3 @@
-
-// Todo: fill with 6 letters words witch-themed in spanish
 const List<String> sixLetterWords = [
   'brujas',
   'brujos',
@@ -9,7 +7,7 @@ const List<String> sixLetterWords = [
   'sombra',
   'sortil',
   'satiro',
-  'druida', 
+  'druida',
   'chaman',
   'ritual',
   'magico',

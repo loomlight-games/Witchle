@@ -5,7 +5,7 @@ import 'package:witchle/game/witchle.dart';
 /// {@endtemplate}
 class App extends StatelessWidget {
   // CONSTRUCTORS ///////////////////////////////////////////////////////////
-  
+
   // Initializer
   const App({super.key});
 
