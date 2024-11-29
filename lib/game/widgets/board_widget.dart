@@ -7,7 +7,6 @@ class Board extends StatelessWidget {
   // PROPERTIES ////////////////////////////////////////////////////////////
 
   final List<Word> words; // List of words
-
   final List<List<GlobalKey<FlipCardState>>> flipCards; // Objects of import
 
   // CONSTRUCTORS ///////////////////////////////////////////////////////////
@@ -17,10 +16,14 @@ class Board extends StatelessWidget {
 
   // WIDGET /////////////////////////////////////////////////////////////////
   @override
-  // Constructs the widget tree for the board,
-  // arranging words in rows and letters in flip cards
-  @override
   Widget build(BuildContext context) {
+    // Access the singleton instance
+    final SettingsManager settings = SettingsManager();
+
+    // Determine the title based on the number of letters
+    final String title =
+        settings.selectedLetters == 5 ? 'Cinco letras' : 'Seis letras';
+
     return Container(
       margin: const EdgeInsets.all(10.0), // Add margin around the container
       decoration: BoxDecoration(
@@ -38,18 +41,17 @@ class Board extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0),
         child: Column(
           children: [
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
-              // Board title
-              'Seis letras',
-              style: TextStyle(
+              title, // Dynamic title based on settings
+              style: const TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 2,
                 color: letterColor,
               ),
             ),
-            SizedBox(height: 10), // Spacing box
+            const SizedBox(height: 10), // Spacing box
             ...words
                 .asMap() // Index as key of each value in words
                 .map(// Iterates in words
@@ -78,7 +80,7 @@ class Board extends StatelessWidget {
                               .toList(),
                         )))
                 .values,
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
           ],
         ),
       ),

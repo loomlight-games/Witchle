@@ -197,13 +197,16 @@ class _GameScreenState extends State<GameScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Board(words: board, flipCards: flipCardKeys),
-        Keyboard(
-          onKeyTapped: _onKeyTapped,
-          onDeleteTapped: _onDeleteTapped,
-          onEnterTapped: _onEnterTapped,
-          letters: _keyboardLetters,
+        Padding(
+          padding:
+              const EdgeInsets.only(bottom: 20.0), // Set the desired margin
+          child: Keyboard(
+            onKeyTapped: _onKeyTapped,
+            onDeleteTapped: _onDeleteTapped,
+            onEnterTapped: _onEnterTapped,
+            letters: _keyboardLetters,
+          ),
         ),
-        const SizedBox(height: 12),
       ],
     );
   }
