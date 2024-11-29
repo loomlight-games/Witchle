@@ -22,17 +22,17 @@ class Board extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Add a title at the top of the board
         Text(
-          'Seis letras', // Replace with your desired title
+          // Board title
+          'Seis letras',
           style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.w700,
             letterSpacing: 2,
+            color: letterColor,
           ),
         ),
         SizedBox(height: 10), // Spacing box
-        // Existing code to build the board
         ...words
             .asMap() // Index as key of each value in words
             .map(// Iterates in words

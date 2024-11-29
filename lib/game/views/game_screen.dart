@@ -28,14 +28,13 @@ class _GameScreenState extends State<GameScreen> {
 
   int numLetters = 6,
       numGuesses = 6,
-      _currentWordIndex = 0; // Current word index being constructed
+      currentWordIndex = 0; // Current word index being constructed
 
   Word? get _currentWord =>
-      _currentWordIndex < board.length ? board[_currentWordIndex] : null;
+      currentWordIndex < board.length ? board[currentWordIndex] : null;
 
   Word _solution = Word.fromString(
-    // Target word to guess
-    // Random from list
+    // Target word to guess - random from list
     // TODO: implement 5 letters mode
     sixLetterWords[Random().nextInt(sixLetterWords.length)].toUpperCase(),
   );
@@ -62,7 +61,7 @@ class _GameScreenState extends State<GameScreen> {
   // Removes a letter from the current word
   void _onDeleteTapped() {
     if (_gameStatus == GameStatus.playing) {
-      setState(() => _currentWord?.removeLetter); //FIXME: NOT WORKING
+      setState(() => _currentWord?.removeLetter());
     }
   }
 
@@ -105,7 +104,7 @@ class _GameScreenState extends State<GameScreen> {
 
         await Future.delayed(
           const Duration(milliseconds: 150),
-          () => flipCardKeys[_currentWordIndex][i].currentState?.toggleCard(),
+          () => flipCardKeys[currentWordIndex][i].currentState?.toggleCard(),
         );
       }
 
@@ -136,7 +135,7 @@ class _GameScreenState extends State<GameScreen> {
             label: 'Otra palabra',
             backgroundColor: lighterCorrectColor,
           )));
-    } else if (_currentWordIndex + 1 >= board.length) {
+    } else if (currentWordIndex + 1 >= board.length) {
       _gameStatus = GameStatus.lost;
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -159,14 +158,14 @@ class _GameScreenState extends State<GameScreen> {
     }
 
     // Next letters will appear in next space
-    _currentWordIndex++;
+    currentWordIndex++;
   }
 
   // Resets the game state for a new round
   void _restart() {
     setState(() {
       _gameStatus = GameStatus.playing;
-      _currentWordIndex = 0;
+      currentWordIndex = 0;
       _keyboardLetters.clear();
 
       _solution = Word.fromString(
@@ -200,49 +199,68 @@ class _GameScreenState extends State<GameScreen> {
   // containing a game board and a keyboard.
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          // Centered title and transparent background
-          centerTitle: true,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: const Text('WITCHLE',
-              style: TextStyle(
-                fontSize: 50,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 15,
-              ))),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            '¡Adivina la palabra!',
-            style: TextStyle(
+        appBar: appBar(), body: body(), bottomNavigationBar: bottomBar());
+  }
+
+  AppBar appBar() {
+    return AppBar(
+      // Centered title and transparent background
+      centerTitle: true,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      shape: CircleBorder(eccentricity: BorderSide.strokeAlignCenter),
+      title: const Text('WITCHLE',
+          style: TextStyle(
+            fontSize: 50,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 15,
+            color: letterColor,
+          )),
+    );
+  }
+
+  Column body() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text(
+          '¡Adivina la palabra!',
+          style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.normal,
               letterSpacing: 1,
-            ),
-          ),
-          const SizedBox(height: 30), // Spacing box
-          Board(words: board, flipCards: flipCardKeys),
-          const SizedBox(height: 20), // Spacing box
-          Keyboard(
-            onKeyTapped: _onKeyTapped,
-            onDeleteTapped: _onDeleteTapped,
-            onEnterTapped: _onEnterTapped,
-            letters: _keyboardLetters,
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.help_sharp), label: 'Tutorial'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Juego'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Ajustes'),
-        ],
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
+              color: letterColor),
+        ),
+
+        const SizedBox(height: 30), // Spacing box
+
+        Board(words: board, flipCards: flipCardKeys),
+
+        const SizedBox(height: 20), // Spacing box
+
+        Keyboard(
+          onKeyTapped: _onKeyTapped,
+          onDeleteTapped: _onDeleteTapped,
+          onEnterTapped: _onEnterTapped,
+          letters: _keyboardLetters,
+        ),
+      ],
+    );
+  }
+
+  BottomNavigationBar bottomBar() {
+    return BottomNavigationBar(
+      items: [
+        BottomNavigationBarItem(
+            icon: Icon(Icons.help_sharp, color: letterColor),
+            label: 'Tutorial'),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.home, color: letterColor), label: 'Juego'),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.settings, color: letterColor), label: 'Ajustes'),
+      ],
+      backgroundColor: Colors.transparent,
+      elevation: 0,
     );
   }
 }

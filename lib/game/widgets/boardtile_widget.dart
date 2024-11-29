@@ -20,8 +20,8 @@ class BoardTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         margin: const EdgeInsets.all(4),
-        height: 55,
-        width: 55,
+        height: 59,
+        width: 59,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: letter.backgroundColor,
@@ -30,8 +30,8 @@ class BoardTile extends StatelessWidget {
         ),
         child: Text(letter.value,
             style: const TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-            )));
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: letterColor)));
   }
 }

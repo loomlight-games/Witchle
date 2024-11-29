@@ -17,8 +17,6 @@ class Letter extends Equatable {
   Color get backgroundColor {
     // Color according to status
     switch (status) {
-      case LetterStatus.initial:
-        return Colors.transparent;
       case LetterStatus.notInWord:
         return incorrectColor;
       case LetterStatus.inWord:
@@ -34,7 +32,7 @@ class Letter extends Equatable {
     // Color according to status
     switch (status) {
       case LetterStatus.initial:
-        return Colors.grey;
+        return currentBorderColor;
       default:
         return Colors.transparent;
     }
@@ -57,6 +55,7 @@ class Letter extends Equatable {
 
   // METHODS ////////////////////////////////////////////////////////////////
 
+  // Modify Letter by a copy - Letter is inmutable
   // Creates a new instance of Letter with updated values for val and status,
   // while retaining the original values if new ones are not provided.
   Letter copyWith({

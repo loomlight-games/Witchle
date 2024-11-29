@@ -13,25 +13,28 @@ class Word extends Equatable {
       letters.map((e) => e.value).join();
 
   @override
-  List<Object?> get props =>
-      [letters]; // List of properties needed to check Equatable
+  // List of properties needed to check Equatable
+  List<Object?> get props => [letters];
 
   // CONSTRUCTORS ///////////////////////////////////////////////////////////
 
   // Initializer
   const Word({required this.letters});
+
   // Factory constructor for word from a string
   // by converting each character into a Letter.
   factory Word.fromString(String word) =>
       // Separates letters and makes a Letter object out of each one
-      Word(letters: word.split('').map((e) => Letter(value: e)).toList());
+      Word(
+          letters:
+              word.split('').map((letter) => Letter(value: letter)).toList());
 
   // METHODS ////////////////////////////////////////////////////////////////
 
   // Writes in the next letter
   void addLetter(String val) {
     // First empty index
-    final currentIndex = letters.indexWhere((e) => e.value.isEmpty);
+    final currentIndex = letters.indexWhere((letter) => letter.value.isEmpty);
 
     if (currentIndex != -1) {
       letters[currentIndex] = Letter(value: val);
@@ -40,9 +43,9 @@ class Word extends Equatable {
 
   // Empties the last letter
   void removeLetter() {
-    //FIXME: NOT WORKING
     // Last filled index
-    final recentLetterIndex = letters.lastIndexWhere((e) => e.value.isNotEmpty);
+    final recentLetterIndex =
+        letters.lastIndexWhere((letter) => letter.value.isNotEmpty);
 
     if (recentLetterIndex != -1) {
       letters[recentLetterIndex] = Letter.empty();
