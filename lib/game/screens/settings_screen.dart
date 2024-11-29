@@ -26,7 +26,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   );
 
   static const List<int> letterOptions = [5, 6];
-  static const List<int> guessOptions = [3, 4, 6];
+  static const List<int> guessOptions = [4, 5, 6];
 
   // Access the singleton instance
   final SettingsManager settings = SettingsManager();
@@ -182,7 +182,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               SizedBox(height: 40),
               _buildCredits(),
-              SizedBox(height: 40),
+              SizedBox(height: 50),
             ],
           ),
         ),
