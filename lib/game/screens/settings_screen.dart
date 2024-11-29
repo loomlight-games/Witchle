@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:witchle/game/exports.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});

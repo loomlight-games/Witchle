@@ -26,8 +26,8 @@ class Board extends StatelessWidget {
           // Board title
           'Seis letras',
           style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.w700,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
             letterSpacing: 2,
             color: letterColor,
           ),

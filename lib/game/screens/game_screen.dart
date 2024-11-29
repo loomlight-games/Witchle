@@ -208,7 +208,7 @@ class _GameScreenState extends State<GameScreen> {
         const Text(
           '¡Adivina la palabra!',
           style: TextStyle(
-              fontSize: 20,
+              fontSize: 25,
               fontWeight: FontWeight.normal,
               letterSpacing: 1,
               color: letterColor),
