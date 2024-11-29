@@ -200,38 +200,48 @@ class _GameScreenState extends State<GameScreen> {
   // containing a game board and a keyboard.
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            // Centered title and transparent background
-            centerTitle: true,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            title: const Text('WITCHLE',
-                style: TextStyle(
-                  fontSize: 50,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 15,
-                ))),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              '¡Adivina la palabra!',
+      appBar: AppBar(
+          // Centered title and transparent background
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: const Text('WITCHLE',
               style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.normal,
-                letterSpacing: 1,
-              ),
+                fontSize: 50,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 15,
+              ))),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            '¡Adivina la palabra!',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.normal,
+              letterSpacing: 1,
             ),
-            const SizedBox(height: 30), // Spacing box
-            Board(words: board, flipCards: flipCardKeys),
-            const SizedBox(height: 20), // Spacing box
-            Keyboard(
-              onKeyTapped: _onKeyTapped,
-              onDeleteTapped: _onDeleteTapped,
-              onEnterTapped: _onEnterTapped,
-              letters: _keyboardLetters,
-            ),
-          ],
-        ));
+          ),
+          const SizedBox(height: 30), // Spacing box
+          Board(words: board, flipCards: flipCardKeys),
+          const SizedBox(height: 20), // Spacing box
+          Keyboard(
+            onKeyTapped: _onKeyTapped,
+            onDeleteTapped: _onDeleteTapped,
+            onEnterTapped: _onEnterTapped,
+            letters: _keyboardLetters,
+          ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.groups), label: 'Info'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Juego'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Ajustes'),
+        ],
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+    );
   }
 }

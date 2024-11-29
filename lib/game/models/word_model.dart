@@ -40,7 +40,7 @@ class Word extends Equatable {
 
   // Empties the last letter
   void removeLetter() {
-    //FIXME NOT WORKING
+    //FIXME: NOT WORKING
     // Last filled index
     final recentLetterIndex = letters.lastIndexWhere((e) => e.value.isNotEmpty);
 
