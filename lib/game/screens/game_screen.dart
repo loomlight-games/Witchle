@@ -1,12 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:witchle/game/exports.dart';
 
 // Status of game
 enum GameStatus { playing, submitting, lost, won }
 
-/// {@template GameScreen}
-/// Represents the main game screen in the application.
-/// It creates an instance of _GameScreenState to manage its state.
-/// {@endtemplate}
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
 
@@ -14,16 +11,17 @@ class GameScreen extends StatefulWidget {
   State<GameScreen> createState() => _GameScreenState();
 }
 
-/// {@template _GameScreenState}
-/// Contains the logic and UI of the game screen.
-/// {@endtemplate}
 class _GameScreenState extends State<GameScreen> {
   // PROPERTIES ////////////////////////////////////////////////////////////
 
   GameStatus _gameStatus = GameStatus.playing;
 
-  static const int numLetters = 6;
-  static const int numGuesses = 6;
+  // Access the singleton instance
+  final SettingsManager settings = SettingsManager();
+
+  // Use the selectedLetters and selectedGuesses from SettingsManager
+  late final int numLetters = settings.selectedLetters;
+  late final int numGuesses = settings.selectedGuesses;
   int currentWordIndex = 0; // Current word index being constructed
 
   Word? get _currentWord =>
@@ -43,10 +41,11 @@ class _GameScreenState extends State<GameScreen> {
 
   // METHODS ////////////////////////////////////////////////////////////////
 
-  // Generates a random solution word
+  // Generates a random solution word based on the number of letters
   Word _generateSolution() {
+    final wordList = numLetters == 5 ? fiveLetterWords : sixLetterWords;
     return Word.fromString(
-      sixLetterWords[Random().nextInt(sixLetterWords.length)].toUpperCase(),
+      wordList[Random().nextInt(wordList.length)].toUpperCase(),
     );
   }
 

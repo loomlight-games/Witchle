@@ -5,6 +5,7 @@ export 'package:flip_card/flip_card.dart';
 export 'dart:math';
 export 'package:witchle/app/app_colors.dart';
 export 'package:witchle/game/data/word_list.dart';
+export 'package:witchle/game/data/settings_manager.dart';
 
 export 'models/letter_model.dart';
 export 'models/word_model.dart';

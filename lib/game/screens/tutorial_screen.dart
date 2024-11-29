@@ -140,7 +140,6 @@ class _TutorialScreenState extends State<TutorialScreen> {
 
   // WIDGET /////////////////////////////////////////////////////////////////
   @override
-  @override
   Widget build(BuildContext context) {
     // Build method to construct the UI of the screen
     return Scaffold(
