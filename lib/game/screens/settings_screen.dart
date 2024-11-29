@@ -16,6 +16,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     fontWeight: FontWeight.normal,
     letterSpacing: 1,
     color: letterColor, // Use a predefined color for text
+    fontFamily: 'Irish Grover',
   );
 
   static const TextStyle titleTextStyle = TextStyle(
@@ -53,11 +54,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     required ValueChanged<int?> onChanged,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-          vertical: 10, horizontal: 50), // Add vertical and horizontal padding
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
       child: Row(
-        mainAxisAlignment:
-            MainAxisAlignment.spaceBetween, // Aligns items with space between
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             label,
@@ -66,24 +65,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
-              color: specialButtonColor, // Background color for the dropdown
-              borderRadius: BorderRadius.circular(8.0), // Rounded corners
+              color: specialButtonColor,
+              borderRadius: BorderRadius.circular(8.0),
             ),
             child: DropdownButton<int>(
               value: value,
               items: options.map((int option) {
                 return DropdownMenuItem<int>(
                   value: option,
-                  child: Text(option.toString()),
+                  child: Text(
+                    option.toString(),
+                    style: normalTextStyle, // Apply the same text style here
+                  ),
                 );
               }).toList(),
               onChanged: onChanged,
-              dropdownColor:
-                  specialButtonColor, // Background color of the dropdown menu
-              icon: Icon(Icons.arrow_drop_down,
-                  color: letterColor), // Custom icon
-              underline: SizedBox(), // Remove the default underline
-              style: normalTextStyle, // Text style for the dropdown items
+              dropdownColor: specialButtonColor,
+              icon: Icon(Icons.arrow_drop_down, color: letterColor),
+              underline: SizedBox(),
+              style: normalTextStyle, // Apply the same text style here
             ),
           ),
         ],
