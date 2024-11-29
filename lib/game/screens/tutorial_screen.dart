@@ -1,24 +1,59 @@
-import 'package:witchle/game/exports.dart'; // Importing necessary packages
+import 'package:witchle/game/exports.dart'; // Import necessary packages for the game
 
-// Define a stateful widget called TutorialScreen
+/// {@template TutorialScreen}
+/// Define a stateful widget called TutorialScreen
+/// {@endtemplate}
 class TutorialScreen extends StatefulWidget {
-  const TutorialScreen({super.key});
+  const TutorialScreen({super.key}); // Constructor with a key for the widget
 
   @override
-  State<TutorialScreen> createState() => _TutorialScreenState();
+  State<TutorialScreen> createState() =>
+      _TutorialScreenState(); // Create the state for this widget
 }
 
-// Define the state for the TutorialScreen widget
+/// {@template TutorialScreenState}
+/// Define the state for the TutorialScreen widget
+/// {@endtemplate}
 class _TutorialScreenState extends State<TutorialScreen> {
   // PROPERTIES ////////////////////////////////////////////////////////////
-  // Define sentences to describe the status of letters in the game
+  // Define font sizes for title and normal text
+  double titleSize = 30, normalTextSize = 15;
+
+  // Define sentences to describe the status of letters and button actions
   String sentence1 =
           "La letra 'B' está en la palabra y en la posición correcta.",
       sentence2 =
           "La letra 'R' está en la palabra pero en la posición incorrecta.",
-      sentence3 = "La letra 'A' no está en la palabra.";
+      sentence3 = "La letra 'A' no está en la palabra.",
+      sentence4 = "Pulsa este botón para borrar la última letra introducida.",
+      sentence5 = "Pulsa este botón para comprobar si la palabra es acertada.";
+
+  // Define a TextStyle for normal text to ensure consistency
+  static const TextStyle normalTextStyle = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.normal,
+    letterSpacing: 1,
+    color: letterColor, // Use a predefined color for text
+  );
 
   // METHODS ////////////////////////////////////////////////////////////////
+  // Method to create the title widget
+  Widget _buildTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10), // Add vertical padding
+      child: Text(
+        title, // Display the title text
+        style: TextStyle(
+          fontSize: titleSize, // Use the defined title size
+          fontWeight: FontWeight.bold,
+          letterSpacing: 2,
+          color: letterColor, // Use a predefined color for the title
+        ),
+        textAlign: TextAlign.center, // Center the text horizontally
+      ),
+    );
+  }
+
   // Method to create a board example with tiles and a descriptive sentence
   Widget _boardExample(
       String word, LetterStatus status, int position, String sentence) {
@@ -39,27 +74,69 @@ class _TutorialScreenState extends State<TutorialScreen> {
     });
 
     // Return a Column widget containing the row of tiles and the sentence
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        // Row to display the tiles horizontally
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: tiles,
-        ),
-        SizedBox(height: 10), // Space between tiles and text
-        // Text widget to display the descriptive sentence
-        Text(
-          sentence,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.normal,
-            letterSpacing: 1,
-            color: letterColor,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15), // Add vertical padding
+      child: Column(
+        mainAxisAlignment:
+            MainAxisAlignment.center, // Center children vertically
+        children: [
+          // Row to display the tiles horizontally
+          Row(
+            mainAxisAlignment:
+                MainAxisAlignment.center, // Center tiles horizontally
+            children: tiles, // Add the generated tiles
           ),
-        ),
-      ],
+          const SizedBox(height: 10), // Space between tiles and text
+          // Container with margins to prevent overflow
+          Container(
+            margin: const EdgeInsets.symmetric(
+                horizontal: 20), // Horizontal margins
+            child: Text(
+              sentence, // Display the descriptive sentence
+              textAlign: TextAlign.center, // Center the text horizontally
+              style: normalTextStyle, // Use the predefined text style
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Method to create a button example with an icon and descriptive text
+  Widget _buttonExample(String sentence, Icon icon) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15), // Add vertical padding
+      child: Row(
+        mainAxisAlignment:
+            MainAxisAlignment.center, // Center children horizontally
+        children: [
+          // Icon widget with rounded corners and specific margins
+          Container(
+            decoration: BoxDecoration(
+              color:
+                  specialButtonColor, // Use a predefined color for the button
+              borderRadius: BorderRadius.circular(5), // Rounded corners
+            ),
+            height: 45, // Set the height of the icon container
+            width: 56, // Set the width of the icon container
+            margin: const EdgeInsets.only(
+                left: 20, right: 10), // Specific margins for the icon
+            child: icon, // Display the icon
+          ),
+          // Flexible Container with right margin to prevent overflow
+          Flexible(
+            child: Container(
+              margin:
+                  const EdgeInsets.only(right: 20), // Right margin for the text
+              child: Text(
+                sentence, // Display the descriptive sentence
+                textAlign: TextAlign.center, // Center the text horizontally
+                style: normalTextStyle, // Use the predefined text style
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -69,29 +146,29 @@ class _TutorialScreenState extends State<TutorialScreen> {
     // Build method to construct the UI of the screen
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Title text for the tutorial
-            Text(
-              'Tutorial',
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 2,
-                color: letterColor,
-              ),
-            ),
-            SizedBox(height: 30), // Space between title and first example
-            // First board example with tiles and text
-            _boardExample('BRUJAS', LetterStatus.correct, 0, sentence1),
-            SizedBox(height: 30), // Space between examples
-            // Second board example with tiles and text
-            _boardExample('RITUAL', LetterStatus.inWord, 1, sentence2),
-            SizedBox(height: 30), // Space between examples
-            // Third board example with tiles and text
-            _boardExample('DIABLO', LetterStatus.notInWord, 2, sentence3),
-          ],
+        child: SingleChildScrollView(
+          // Use SingleChildScrollView to prevent overflow
+          child: Column(
+            mainAxisAlignment:
+                MainAxisAlignment.spaceEvenly, // Evenly space children
+            children: [
+              // Title text for the tutorial
+              _buildTitle('Tutorial'),
+              // First board example with tiles and text
+              _boardExample('BRUJAS', LetterStatus.correct, 0, sentence1),
+              // Second board example with tiles and text
+              _boardExample('RITUAL', LetterStatus.inWord, 1, sentence2),
+              // Third board example with tiles and text
+              _boardExample('DIABLO', LetterStatus.notInWord, 2, sentence3),
+              // Button examples with icons and text
+              _buttonExample(sentence4,
+                  const Icon(Icons.keyboard_backspace, color: letterColor)),
+              _buttonExample(
+                  sentence5,
+                  const Icon(Icons.keyboard_double_arrow_up,
+                      color: letterColor)),
+            ],
+          ),
         ),
       ),
     );

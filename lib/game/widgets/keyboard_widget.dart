@@ -102,7 +102,7 @@ class _KeyboardButton extends StatelessWidget {
       ),
       child: Material(
         color: backGroundColor,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(5),
         child: InkWell(
           onTap: onTap,
           child: Container(
