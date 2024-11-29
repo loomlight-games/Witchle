@@ -41,14 +41,30 @@ class _WitchleState extends State<Witchle> {
       centerTitle: true,
       backgroundColor: Colors.transparent,
       elevation: 0,
-      shape: CircleBorder(eccentricity: BorderSide.strokeAlignCenter),
-      title: const Text('WITCHLE',
-          style: TextStyle(
-            fontSize: 50,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 15,
-            color: letterColor,
-          )),
+      title: Column(
+        mainAxisSize: MainAxisSize.min, // Minimize the column's height
+        children: [
+          const Text(
+            'WITCHLE',
+            style: TextStyle(
+              fontSize: 50,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 15,
+              color: letterColor,
+            ),
+          ),
+          const Text(
+            '¡Adivina la palabra!',
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.normal,
+              letterSpacing: 1,
+              color: letterColor,
+            ),
+          ),
+        ],
+      ),
+      toolbarHeight: 120.0, // Set a custom height for the AppBar
     );
   }
 

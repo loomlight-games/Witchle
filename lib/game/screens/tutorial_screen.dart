@@ -16,8 +16,6 @@ class TutorialScreen extends StatefulWidget {
 /// {@endtemplate}
 class _TutorialScreenState extends State<TutorialScreen> {
   // PROPERTIES ////////////////////////////////////////////////////////////
-  // Define font sizes for title and normal text
-  double titleSize = 30, normalTextSize = 15;
 
   // Define sentences to describe the status of letters and button actions
   String sentence1 =
@@ -30,7 +28,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
 
   // Define a TextStyle for normal text to ensure consistency
   static const TextStyle normalTextStyle = TextStyle(
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: FontWeight.normal,
     letterSpacing: 1,
     color: letterColor, // Use a predefined color for text
@@ -40,11 +38,11 @@ class _TutorialScreenState extends State<TutorialScreen> {
   // Method to create the title widget
   Widget _buildTitle(String title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10), // Add vertical padding
+      padding: const EdgeInsets.all(10), // Add vertical padding
       child: Text(
         title, // Display the title text
         style: TextStyle(
-          fontSize: titleSize, // Use the defined title size
+          fontSize: 30, // Use the defined title size
           fontWeight: FontWeight.bold,
           letterSpacing: 2,
           color: letterColor, // Use a predefined color for the title
@@ -75,7 +73,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
 
     // Return a Column widget containing the row of tiles and the sentence
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15), // Add vertical padding
+      padding: const EdgeInsets.symmetric(vertical: 10), // Add vertical padding
       child: Column(
         mainAxisAlignment:
             MainAxisAlignment.center, // Center children vertically
@@ -105,7 +103,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
   // Method to create a button example with an icon and descriptive text
   Widget _buttonExample(String sentence, Icon icon) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15), // Add vertical padding
+      padding: const EdgeInsets.symmetric(vertical: 10), // Add vertical padding
       child: Row(
         mainAxisAlignment:
             MainAxisAlignment.center, // Center children horizontally
@@ -142,32 +140,52 @@ class _TutorialScreenState extends State<TutorialScreen> {
 
   // WIDGET /////////////////////////////////////////////////////////////////
   @override
+  @override
   Widget build(BuildContext context) {
     // Build method to construct the UI of the screen
     return Scaffold(
       body: Center(
-        child: SingleChildScrollView(
-          // Use SingleChildScrollView to prevent overflow
-          child: Column(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceEvenly, // Evenly space children
-            children: [
-              // Title text for the tutorial
-              _buildTitle('Tutorial'),
-              // First board example with tiles and text
-              _boardExample('BRUJAS', LetterStatus.correct, 0, sentence1),
-              // Second board example with tiles and text
-              _boardExample('RITUAL', LetterStatus.inWord, 1, sentence2),
-              // Third board example with tiles and text
-              _boardExample('DIABLO', LetterStatus.notInWord, 2, sentence3),
-              // Button examples with icons and text
-              _buttonExample(sentence4,
-                  const Icon(Icons.keyboard_backspace, color: letterColor)),
-              _buttonExample(
-                  sentence5,
-                  const Icon(Icons.keyboard_double_arrow_up,
-                      color: letterColor)),
+        child: Container(
+          margin: const EdgeInsets.all(10.0), // Add margin around the container
+          decoration: BoxDecoration(
+            color: buttonInitialColor, // Background color for the container
+            borderRadius: BorderRadius.circular(12.0), // Rounded corners
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black, // Shadow color
+                blurRadius: 8.0, // Shadow blur radius
+                offset: Offset(0, 10), // Shadow offset
+              ),
             ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(
+                12.0), // Ensure content respects the border radius
+            child: SingleChildScrollView(
+              // Use SingleChildScrollView to prevent overflow
+              child: Column(
+                children: [
+                  SizedBox(height: 15),
+                  // Title text for the tutorial
+                  _buildTitle('Tutorial'),
+                  // First board example with tiles and text
+                  _boardExample('BRUJAS', LetterStatus.correct, 0, sentence1),
+                  // Second board example with tiles and text
+                  _boardExample('RITUAL', LetterStatus.inWord, 1, sentence2),
+                  // Third board example with tiles and text
+                  _boardExample('DIABLO', LetterStatus.notInWord, 2, sentence3),
+                  SizedBox(height: 31),
+                  // Button examples with icons and text
+                  _buttonExample(sentence4,
+                      const Icon(Icons.keyboard_backspace, color: letterColor)),
+                  _buttonExample(
+                      sentence5,
+                      const Icon(Icons.keyboard_double_arrow_up,
+                          color: letterColor)),
+                  SizedBox(height: 7),
+                ],
+              ),
+            ),
           ),
         ),
       ),

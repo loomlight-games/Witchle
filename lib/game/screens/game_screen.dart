@@ -205,14 +205,6 @@ class _GameScreenState extends State<GameScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
-          '¡Adivina la palabra!',
-          style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.normal,
-              letterSpacing: 1,
-              color: letterColor),
-        ),
         Board(words: board, flipCards: flipCardKeys),
         Keyboard(
           onKeyTapped: _onKeyTapped,
