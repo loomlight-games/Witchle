@@ -1,4 +1,4 @@
-import 'package:witchle/game/witchle.dart';
+import 'package:witchle/game/exports.dart';
 
 /// {@template Board}
 /// Represents a game board composed of words formed by FlipCards

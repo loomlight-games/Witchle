@@ -1,3 +1,4 @@
+import 'package:witchle/game/exports.dart';
 import 'package:witchle/game/witchle.dart';
 
 /// {@template Letter}
@@ -21,7 +22,7 @@ class App extends StatelessWidget {
         scaffoldBackgroundColor: screenBgColor,
         fontFamily: 'Irish Grover',
       ),
-      home: const GameScreen(),
+      home: Witchle(),
     );
   }
 }

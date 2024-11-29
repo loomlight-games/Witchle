@@ -1,4 +1,4 @@
-import 'package:witchle/game/witchle.dart';
+import 'package:witchle/game/exports.dart';
 
 /// {@template BoardTile}
 /// Represents a game board tile with specific styling and background color
@@ -26,7 +26,7 @@ class BoardTile extends StatelessWidget {
         decoration: BoxDecoration(
           color: letter.backgroundColor,
           border: Border.all(color: letter.borderColor),
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Text(letter.value,
             style: const TextStyle(

@@ -1,4 +1,4 @@
-import 'package:witchle/game/witchle.dart';
+import 'package:witchle/game/exports.dart';
 
 const Color screenBgColor = Color.fromARGB(255, 29, 18, 43),
     buttonInitialColor = Color.fromARGB(255, 67, 45, 97),

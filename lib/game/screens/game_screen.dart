@@ -1,4 +1,4 @@
-import 'package:witchle/game/witchle.dart';
+import 'package:witchle/game/exports.dart';
 
 // Todo: sidebar with Loomlight info
 // Todo: another board with 6 letter words, horizontally scrollable
@@ -198,30 +198,12 @@ class _GameScreenState extends State<GameScreen> {
   // Uses a Scaffold widget to create a layout with an AppBar and a body
   // containing a game board and a keyboard.
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: appBar(), body: body(), bottomNavigationBar: bottomBar());
-  }
-
-  AppBar appBar() {
-    return AppBar(
-      // Centered title and transparent background
-      centerTitle: true,
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      shape: CircleBorder(eccentricity: BorderSide.strokeAlignCenter),
-      title: const Text('WITCHLE',
-          style: TextStyle(
-            fontSize: 50,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 15,
-            color: letterColor,
-          )),
-    );
+    return Scaffold(body: body());
   }
 
   Column body() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const Text(
           '¡Adivina la palabra!',
@@ -231,13 +213,7 @@ class _GameScreenState extends State<GameScreen> {
               letterSpacing: 1,
               color: letterColor),
         ),
-
-        const SizedBox(height: 30), // Spacing box
-
         Board(words: board, flipCards: flipCardKeys),
-
-        const SizedBox(height: 20), // Spacing box
-
         Keyboard(
           onKeyTapped: _onKeyTapped,
           onDeleteTapped: _onDeleteTapped,
@@ -245,22 +221,6 @@ class _GameScreenState extends State<GameScreen> {
           letters: _keyboardLetters,
         ),
       ],
-    );
-  }
-
-  BottomNavigationBar bottomBar() {
-    return BottomNavigationBar(
-      items: [
-        BottomNavigationBarItem(
-            icon: Icon(Icons.help_sharp, color: letterColor),
-            label: 'Tutorial'),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: letterColor), label: 'Juego'),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.settings, color: letterColor), label: 'Ajustes'),
-      ],
-      backgroundColor: Colors.transparent,
-      elevation: 0,
     );
   }
 }

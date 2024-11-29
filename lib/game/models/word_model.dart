@@ -1,4 +1,4 @@
-import 'package:witchle/game/witchle.dart';
+import 'package:witchle/game/exports.dart';
 
 /// {@template Word}
 /// Wird with a list of [Letters] transformable to String
