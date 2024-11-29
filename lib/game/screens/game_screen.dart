@@ -212,6 +212,7 @@ class _GameScreenState extends State<GameScreen> {
           onEnterTapped: _onEnterTapped,
           letters: _keyboardLetters,
         ),
+        SizedBox(height: 12),
       ],
     );
   }

@@ -73,7 +73,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
 
     // Return a Column widget containing the row of tiles and the sentence
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 7), // Add vertical padding
+      padding: const EdgeInsets.symmetric(vertical: 8), // Add vertical padding
       child: Column(
         mainAxisAlignment:
             MainAxisAlignment.center, // Center children vertically
@@ -103,7 +103,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
   // Method to create a button example with an icon and descriptive text
   Widget _buttonExample(String sentence, Icon icon) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 7), // Add vertical padding
+      padding: const EdgeInsets.symmetric(vertical: 8), // Add vertical padding
       child: Row(
         mainAxisAlignment:
             MainAxisAlignment.center, // Center children horizontally
@@ -165,23 +165,23 @@ class _TutorialScreenState extends State<TutorialScreen> {
               // Use SingleChildScrollView to prevent overflow
               child: Column(
                 children: [
-                  SizedBox(height: 10),
+                  //SizedBox(height: 10),
                   // Title text for the tutorial
                   _buildTitle('Tutorial'),
-                  SizedBox(height: 7),
+                  //SizedBox(height: 7),
                   const Text(
                     'Será una palabra de temática embrujada.',
                     textAlign: TextAlign.center, // Center the text horizontally
                     style: normalTextStyle,
                   ),
-                  SizedBox(height: 15),
+                  SizedBox(height: 16),
                   // First board example with tiles and text
                   _boardExample('BRUJAS', LetterStatus.correct, 0, sentence1),
                   // Second board example with tiles and text
                   _boardExample('RITUAL', LetterStatus.inWord, 1, sentence2),
                   // Third board example with tiles and text
                   _boardExample('DIABLO', LetterStatus.notInWord, 2, sentence3),
-                  SizedBox(height: 16),
+                  SizedBox(height: 22),
                   // Button examples with icons and text
                   _buttonExample(sentence4,
                       const Icon(Icons.keyboard_backspace, color: letterColor)),

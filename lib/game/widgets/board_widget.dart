@@ -38,7 +38,7 @@ class Board extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0),
         child: Column(
           children: [
-            SizedBox(height: 25),
+            SizedBox(height: 10),
             Text(
               // Board title
               'Seis letras',
@@ -49,7 +49,7 @@ class Board extends StatelessWidget {
                 color: letterColor,
               ),
             ),
-            SizedBox(height: 25), // Spacing box
+            SizedBox(height: 10), // Spacing box
             ...words
                 .asMap() // Index as key of each value in words
                 .map(// Iterates in words
