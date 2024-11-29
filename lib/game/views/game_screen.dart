@@ -235,7 +235,8 @@ class _GameScreenState extends State<GameScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.groups), label: 'Info'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.help_sharp), label: 'Tutorial'),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Juego'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Ajustes'),
         ],
