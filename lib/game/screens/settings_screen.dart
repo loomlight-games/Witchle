@@ -12,7 +12,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   // Define a TextStyle for normal text to ensure consistency
   static const TextStyle normalTextStyle = TextStyle(
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: FontWeight.normal,
     letterSpacing: 1,
     color: letterColor, // Use a predefined color for text
@@ -32,6 +32,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final SettingsManager settings = SettingsManager();
 
   // METHODS ////////////////////////////////////////////////////////////////
+
   // Method to create the title widget
   Widget _buildTitle(String title) {
     return Padding(
@@ -44,92 +45,147 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  // WIDGET /////////////////////////////////////////////////////////////////
-  @override
-  Widget build(BuildContext context) {
-    // Build method to construct the UI of the screen
-    return Scaffold(
-      body: Column(
+  // Reusable method to create a DropdownButton
+  Widget _buildDropdownButton({
+    required String label,
+    required int value,
+    required List<int> options,
+    required ValueChanged<int?> onChanged,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+          vertical: 10, horizontal: 50), // Add vertical and horizontal padding
+      child: Row(
+        mainAxisAlignment:
+            MainAxisAlignment.spaceBetween, // Aligns items with space between
         children: [
-          Expanded(
-            child: Container(
-              width: double.infinity, // Make the container take full width
-              margin:
-                  const EdgeInsets.all(10.0), // Add margin around the container
-              decoration: BoxDecoration(
-                color: buttonInitialColor, // Background color for the container
-                borderRadius: BorderRadius.circular(12.0), // Rounded corners
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black, // Shadow color
-                    blurRadius: 8.0, // Shadow blur radius
-                    offset: Offset(0, 10), // Shadow offset
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(
-                    12.0), // Ensure content respects the border radius
-                child: SingleChildScrollView(
-                  // Use SingleChildScrollView to prevent overflow
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      _buildTitle('Ajustes'),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 7),
-                        child: Text(
-                          'Número de letras:',
-                          textAlign:
-                              TextAlign.center, // Center the text horizontally
-                          style: normalTextStyle,
-                        ),
-                      ),
-                      DropdownButton<int>(
-                        value: settings.selectedLetters,
-                        items: letterOptions.map((int value) {
-                          return DropdownMenuItem<int>(
-                            value: value,
-                            child: Text(value.toString()),
-                          );
-                        }).toList(),
-                        onChanged: (int? newValue) {
-                          setState(() {
-                            settings.selectedLetters = newValue!;
-                          });
-                        },
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Text(
-                          'Número de intentos:',
-                          textAlign:
-                              TextAlign.center, // Center the text horizontally
-                          style: normalTextStyle,
-                        ),
-                      ),
-                      DropdownButton<int>(
-                        value: settings.selectedGuesses,
-                        items: guessOptions.map((int value) {
-                          return DropdownMenuItem<int>(
-                            value: value,
-                            child: Text(value.toString()),
-                          );
-                        }).toList(),
-                        onChanged: (int? newValue) {
-                          setState(() {
-                            settings.selectedGuesses = newValue!;
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                    ],
-                  ),
-                ),
-              ),
+          Text(
+            label,
+            style: normalTextStyle,
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(
+              color: specialButtonColor, // Background color for the dropdown
+              borderRadius: BorderRadius.circular(8.0), // Rounded corners
+            ),
+            child: DropdownButton<int>(
+              value: value,
+              items: options.map((int option) {
+                return DropdownMenuItem<int>(
+                  value: option,
+                  child: Text(option.toString()),
+                );
+              }).toList(),
+              onChanged: onChanged,
+              dropdownColor:
+                  specialButtonColor, // Background color of the dropdown menu
+              icon: Icon(Icons.arrow_drop_down,
+                  color: letterColor), // Custom icon
+              underline: SizedBox(), // Remove the default underline
+              style: normalTextStyle, // Text style for the dropdown items
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  // Method to create the credits
+  Widget _buildCredits() {
+    const List<String> names = [
+      'Alfonso Del Pino García',
+      'Pascual Gázquez Compán',
+      'Paula González Stradiotto',
+      'Alba Haro Ballesteros',
+      'Cristina Lozano Bautista',
+      'Álvaro Moreno García',
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.all(10.0), // Add vertical padding
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _buildTitle('Loomlight'),
+          Text(
+            'Creadores de Witchle',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.normal,
+              letterSpacing: 1,
+              color: letterColor, // Use a predefined color for text
+            ),
+            textAlign: TextAlign.center, // Center the text horizontally
+          ),
+          SizedBox(height: 30),
+          ...names.map((name) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(
+                  vertical: 2.0), // Add spacing between names
+              child: Text(
+                name,
+                style: normalTextStyle,
+                textAlign: TextAlign.center, // Center the text horizontally
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  // WIDGET /////////////////////////////////////////////////////////////////
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        width: double.infinity,
+        margin: const EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          color: buttonInitialColor,
+          borderRadius: BorderRadius.circular(12.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black,
+              blurRadius: 8.0,
+              offset: Offset(0, 10),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(12.0),
+          child: Column(
+            mainAxisAlignment:
+                MainAxisAlignment.spaceBetween, // Distribute space
+            children: [
+              _buildTitle('Ajustes'),
+              _buildDropdownButton(
+                label: 'Número de letras',
+                value: settings.selectedLetters,
+                options: letterOptions,
+                onChanged: (int? newValue) {
+                  setState(() {
+                    settings.selectedLetters = newValue!;
+                  });
+                },
+              ),
+              _buildDropdownButton(
+                label: 'Número de intentos',
+                value: settings.selectedGuesses,
+                options: guessOptions,
+                onChanged: (int? newValue) {
+                  setState(() {
+                    settings.selectedGuesses = newValue!;
+                  });
+                },
+              ),
+              SizedBox(height: 40),
+              _buildCredits(),
+              SizedBox(height: 40),
+            ],
+          ),
+        ),
       ),
     );
   }
