@@ -19,6 +19,9 @@ class _WitchleState extends State<Witchle> {
 
   // Updates current screen
   void _navigateToScreen(int nextScreen) {
+    // Hide the current SnackBar
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
     setState(() {
       _currentScreen = nextScreen;
     });
@@ -26,23 +29,21 @@ class _WitchleState extends State<Witchle> {
 
   // WIDGET /////////////////////////////////////////////////////////////////
   @override
-  // Uses a Scaffold widget to create a layout with an AppBar and a body
-  // containing a game board and a keyboard.
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBar(),
-        body: _screens[_currentScreen],
-        bottomNavigationBar: bottomBar());
+      appBar: appBar(),
+      body: _screens[_currentScreen],
+      bottomNavigationBar: bottomBar(),
+    );
   }
 
   AppBar appBar() {
     return AppBar(
-      // Centered title and transparent background
       centerTitle: true,
       backgroundColor: Colors.transparent,
       elevation: 0,
       title: Column(
-        mainAxisSize: MainAxisSize.min, // Minimize the column's height
+        mainAxisSize: MainAxisSize.min,
         children: [
           const Text(
             'WITCHLE',
@@ -64,7 +65,7 @@ class _WitchleState extends State<Witchle> {
           ),
         ],
       ),
-      toolbarHeight: 120.0, // Set a custom height for the AppBar
+      toolbarHeight: 120.0,
     );
   }
 
@@ -74,9 +75,10 @@ class _WitchleState extends State<Witchle> {
       onTap: _navigateToScreen,
       items: [
         BottomNavigationBarItem(
-            icon: Icon(Icons.help_sharp, color: disabledLetterColor),
-            label: 'Tutorial',
-            activeIcon: Icon(Icons.help_sharp, color: letterColor)),
+          icon: Icon(Icons.help_sharp, color: disabledLetterColor),
+          label: 'Tutorial',
+          activeIcon: Icon(Icons.help_sharp, color: letterColor),
+        ),
         BottomNavigationBarItem(
           icon: Icon(Icons.home, color: disabledLetterColor),
           activeIcon: Icon(Icons.home, color: letterColor),

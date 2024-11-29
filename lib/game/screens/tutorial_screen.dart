@@ -169,7 +169,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                   _buildTitle('Tutorial'),
                   //SizedBox(height: 7),
                   const Text(
-                    'Será una palabra de temática embrujada.',
+                    'Es una palabra de temática embrujada.',
                     textAlign: TextAlign.center, // Center the text horizontally
                     style: normalTextStyle,
                   ),
