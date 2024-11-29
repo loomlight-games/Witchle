@@ -58,12 +58,19 @@ class _WitchleState extends State<Witchle> {
       onTap: _navigateToScreen,
       items: [
         BottomNavigationBarItem(
-            icon: Icon(Icons.help_sharp, color: letterColor),
-            label: 'Tutorial'),
+            icon: Icon(Icons.help_sharp, color: disabledLetterColor),
+            label: 'Tutorial',
+            activeIcon: Icon(Icons.help_sharp, color: letterColor)),
         BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: letterColor), label: 'Juego'),
+          icon: Icon(Icons.home, color: disabledLetterColor),
+          activeIcon: Icon(Icons.home, color: letterColor),
+          label: 'Juego',
+        ),
         BottomNavigationBarItem(
-            icon: Icon(Icons.settings, color: letterColor), label: 'Ajustes'),
+          icon: Icon(Icons.settings, color: disabledLetterColor),
+          activeIcon: Icon(Icons.settings, color: letterColor),
+          label: 'Ajustes',
+        ),
       ],
       backgroundColor: Colors.transparent,
       elevation: 0,
