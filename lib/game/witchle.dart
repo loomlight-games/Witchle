@@ -8,7 +8,7 @@ export 'package:witchle/app/app_colors.dart';
 export 'package:witchle/game/data/word_list.dart';
 export 'models/letter_model.dart';
 export 'models/word_model.dart';
-export 'views/game_screen.dart';
+export 'screens/game_screen.dart';
 export 'widgets/board_widget.dart';
 export 'widgets/boardtile_widget.dart';
 export 'widgets/keyboard_widget.dart';
