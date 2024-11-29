@@ -1,8 +1,5 @@
 import 'package:witchle/game/exports.dart';
 
-// Todo: sidebar with Loomlight info
-// Todo: another board with 6 letter words, horizontally scrollable
-
 // Status of game
 enum GameStatus { playing, submitting, lost, won }
 
@@ -14,30 +11,25 @@ class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
 
   @override
-  // Returns an instance of the
   State<GameScreen> createState() => _GameScreenState();
 }
 
 /// {@template _GameScreenState}
-/// Contaisn the logic and UI of the game screen
+/// Contains the logic and UI of the game screen.
 /// {@endtemplate}
 class _GameScreenState extends State<GameScreen> {
   // PROPERTIES ////////////////////////////////////////////////////////////
 
   GameStatus _gameStatus = GameStatus.playing;
 
-  int numLetters = 6,
-      numGuesses = 6,
-      currentWordIndex = 0; // Current word index being constructed
+  static const int numLetters = 6;
+  static const int numGuesses = 6;
+  int currentWordIndex = 0; // Current word index being constructed
 
   Word? get _currentWord =>
       currentWordIndex < board.length ? board[currentWordIndex] : null;
 
-  Word _solution = Word.fromString(
-    // Target word to guess - random from list
-    // TODO: implement 5 letters mode
-    sixLetterWords[Random().nextInt(sixLetterWords.length)].toUpperCase(),
-  );
+  late Word _solution = _generateSolution();
 
   late List<Word> board = List.generate(numGuesses,
       (_) => Word(letters: List.generate(numLetters, (_) => Letter.empty())));
@@ -50,6 +42,13 @@ class _GameScreenState extends State<GameScreen> {
   final Set<Letter> _keyboardLetters = {};
 
   // METHODS ////////////////////////////////////////////////////////////////
+
+  // Generates a random solution word
+  Word _generateSolution() {
+    return Word.fromString(
+      sixLetterWords[Random().nextInt(sixLetterWords.length)].toUpperCase(),
+    );
+  }
 
   // Adds a letter to the current word if the game is in the playing state
   void _onKeyTapped(String val) {
@@ -67,13 +66,9 @@ class _GameScreenState extends State<GameScreen> {
 
   // Checks the current word against the solution and updates the game state
   Future<void> _onEnterTapped() async {
-    // Async for flipcards to work
-    if (_gameStatus == GameStatus.playing // Is playing
-            &&
-            _currentWord != null &&
-            !_currentWord!.letters
-                .contains(Letter.empty()) // All spaces are filled
-        ) {
+    if (_gameStatus == GameStatus.playing &&
+        _currentWord != null &&
+        !_currentWord!.letters.contains(Letter.empty())) {
       _gameStatus = GameStatus.submitting;
 
       for (var i = 0; i < _currentWord!.letters.length; i++) {
@@ -114,51 +109,61 @@ class _GameScreenState extends State<GameScreen> {
 
   // Determines if the player has won or lost and displays a message
   void _checkIfWinOrLoss() {
-    // The word is the same as the solution
     if (_currentWord!.wordString == _solution.wordString) {
-      _gameStatus = GameStatus.won; // Win status
-
-      // Show Snackbar
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          behavior: SnackBarBehavior.floating, // Better looking
-          dismissDirection: DismissDirection.none,
-          duration: const Duration(days: 1),
-          backgroundColor: correctColor,
-          content: const Text(
-            '¡Has acertado!',
-            style: TextStyle(color: Colors.white),
-          ),
-          // Button
-          action: SnackBarAction(
-            onPressed: _restart,
-            textColor: Colors.white,
-            label: 'Otra palabra',
-            backgroundColor: lighterCorrectColor,
-          )));
+      _gameStatus = GameStatus.won;
+      _showSnackBar(correctColor, '¡Has acertado!', lighterCorrectColor);
     } else if (currentWordIndex + 1 >= board.length) {
       _gameStatus = GameStatus.lost;
-
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          behavior: SnackBarBehavior.floating, // Better looking
-          dismissDirection: DismissDirection.none,
-          duration: const Duration(days: 1),
-          backgroundColor: incorrectColor,
-          content: Text(
-            'Has fallado. Solución: ${_solution.wordString.toUpperCase()}',
-            style: const TextStyle(color: Colors.white),
-          ),
-          action: SnackBarAction(
-            onPressed: _restart,
-            textColor: Colors.white,
-            label: 'Otra palabra',
-            backgroundColor: lighterIncorrectColor,
-          )));
+      _showSnackBar(
+          incorrectColor,
+          'Has fallado.\nSolución: ${_solution.wordString.toUpperCase()}',
+          lighterIncorrectColor);
     } else {
       _gameStatus = GameStatus.playing;
     }
 
-    // Next letters will appear in next space
     currentWordIndex++;
+  }
+
+  // Displays a SnackBar with a message
+  void _showSnackBar(
+      Color backgroundColor, String contentText, Color actionBackgroundColor) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        dismissDirection: DismissDirection.none,
+        duration: const Duration(days: 1),
+        backgroundColor: backgroundColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        margin: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.symmetric(vertical: 15.0),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Text(
+                  contentText,
+                  style: const TextStyle(color: letterColor, fontSize: 16),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: SnackBarAction(
+                onPressed: _restart,
+                textColor: letterColor,
+                label: 'Otra palabra',
+                backgroundColor: actionBackgroundColor,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   // Resets the game state for a new round
@@ -167,41 +172,28 @@ class _GameScreenState extends State<GameScreen> {
       _gameStatus = GameStatus.playing;
       currentWordIndex = 0;
       _keyboardLetters.clear();
+      _solution = _generateSolution();
 
-      _solution = Word.fromString(
-        sixLetterWords[Random().nextInt(sixLetterWords.length)].toUpperCase(),
+      board = List.generate(
+        numGuesses,
+        (_) => Word(letters: List.generate(numLetters, (_) => Letter.empty())),
       );
 
-      board
-        ..clear()
-        ..addAll(
-          List.generate(
-            numGuesses,
-            (_) =>
-                Word(letters: List.generate(numLetters, (_) => Letter.empty())),
-          ),
-        );
-
-      flipCardKeys
-        ..clear()
-        ..addAll(
-          List.generate(
-              numGuesses,
-              (_) =>
-                  List.generate(numLetters, (_) => GlobalKey<FlipCardState>())),
-        );
+      flipCardKeys = List.generate(
+        numGuesses,
+        (_) => List.generate(numLetters, (_) => GlobalKey<FlipCardState>()),
+      );
     });
   }
 
   // WIDGET /////////////////////////////////////////////////////////////////
   @override
-  // Uses a Scaffold widget to create a layout with an AppBar and a body
-  // containing a game board and a keyboard.
   Widget build(BuildContext context) {
-    return Scaffold(body: body());
+    return Scaffold(body: _buildBody());
   }
 
-  Column body() {
+  // Builds the main body of the game screen
+  Column _buildBody() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -212,7 +204,7 @@ class _GameScreenState extends State<GameScreen> {
           onEnterTapped: _onEnterTapped,
           letters: _keyboardLetters,
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
       ],
     );
   }
