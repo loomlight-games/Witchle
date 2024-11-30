@@ -6,6 +6,7 @@ export 'dart:math';
 export 'package:witchle/app/app_colors.dart';
 export 'package:witchle/game/data/word_list.dart';
 export 'package:witchle/game/data/settings_manager.dart';
+export 'package:flutter/services.dart';
 
 export 'models/letter_model.dart';
 export 'models/word_model.dart';
@@ -16,3 +17,4 @@ export 'widgets/keyboard_widget.dart';
 export 'screens/game_screen.dart';
 export 'screens/settings_screen.dart';
 export 'screens/tutorial_screen.dart';
+export 'package:witchle/app/app.dart';

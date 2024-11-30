@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:witchle/game/exports.dart';
 
 // Status of game
