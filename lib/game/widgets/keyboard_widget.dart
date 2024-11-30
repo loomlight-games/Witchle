@@ -103,6 +103,7 @@ class _KeyboardButton extends StatelessWidget {
       child: Material(
         color: backGroundColor,
         borderRadius: BorderRadius.circular(5),
+        // Bloom effect
         child: InkWell(
           onTap: onTap,
           child: Container(
