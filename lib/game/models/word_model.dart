@@ -1,16 +1,15 @@
 import 'package:witchle/game/exports.dart';
 
 /// {@template Word}
-/// Wird with a list of [Letters] transformable to String
+/// Word with a list of [Letters] transformable to String
 /// {@endtemplate}
 class Word extends Equatable {
   // PROPERTIES ////////////////////////////////////////////////////////////
 
   final List<Letter> letters;
 
-  String get wordString => // String representation of the word
-      // Joins each Letter value to form a String
-      letters.map((e) => e.value).join();
+  // String representation of the word
+  String get wordString => letters.map((letter) => letter.value).join();
 
   @override
   // List of properties needed to check Equatable
@@ -23,30 +22,29 @@ class Word extends Equatable {
 
   // Factory constructor for word from a string
   // by converting each character into a Letter.
-  factory Word.fromString(String word) =>
-      // Separates letters and makes a Letter object out of each one
-      Word(
-          letters:
-              word.split('').map((letter) => Letter(value: letter)).toList());
+  factory Word.fromString(String word) => Word(
+      letters: word.split('').map((letter) => Letter(value: letter)).toList());
 
   // METHODS ////////////////////////////////////////////////////////////////
 
-  // Writes in the next letter
+  /// Writes in the next letter
   void addLetter(String val) {
-    // First empty index
+    // Find the first empty index
     final currentIndex = letters.indexWhere((letter) => letter.value.isEmpty);
 
+    // If an empty index is found, replace it with the new letter
     if (currentIndex != -1) {
       letters[currentIndex] = Letter(value: val);
     }
   }
 
-  // Empties the last letter
+  /// Empties the last letter
   void removeLetter() {
-    // Last filled index
+    // Find the last filled index
     final recentLetterIndex =
         letters.lastIndexWhere((letter) => letter.value.isNotEmpty);
 
+    // If a filled index is found, replace it with an empty letter
     if (recentLetterIndex != -1) {
       letters[recentLetterIndex] = Letter.empty();
     }

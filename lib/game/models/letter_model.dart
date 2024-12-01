@@ -4,18 +4,18 @@ import 'package:witchle/game/exports.dart';
 enum LetterStatus { initial, notInWord, inWord, correct }
 
 /// {@template Letter}
-/// Letter with an state and colors according to it
+/// Letter with a state and colors according to it
 /// {@endtemplate}
 class Letter extends Equatable {
   // Equatable: A base class to facilitate [operator ==] and [hashCode] overrides
+
   // PROPERTIES ////////////////////////////////////////////////////////////
 
-  final String value; // Letter it is
+  final String value; // The letter itself
+  final LetterStatus status; // The status of the letter
 
-  final LetterStatus status;
-
+  // Get background color based on the letter's status
   Color get backgroundColor {
-    // Color according to status
     switch (status) {
       case LetterStatus.notInWord:
         return incorrectColor;
@@ -28,44 +28,37 @@ class Letter extends Equatable {
     }
   }
 
+  // Get border color based on the letter's status
   Color get borderColor {
-    // Color according to status
-    switch (status) {
-      case LetterStatus.initial:
-        return currentBorderColor;
-      default:
-        return Colors.transparent;
-    }
+    return status == LetterStatus.initial
+        ? currentBorderColor
+        : Colors.transparent;
   }
 
   @override
-  List<Object> get props =>
-      [value, status]; // List of properties needed to check Equatable
+  List<Object> get props => [value, status]; // Properties for Equatable
 
   // CONSTRUCTORS ///////////////////////////////////////////////////////////
 
-  // Initializer
+  // Constructor to initialize a Letter
   const Letter({
-    required this.value, // Must specify
-    this.status = LetterStatus.initial,
+    required this.value, // Must specify the letter value
+    this.status = LetterStatus.initial, // Default status is initial
   });
 
-  // Factory constructor for empty word
+  // Factory constructor for an empty letter
   factory Letter.empty() => const Letter(value: '');
 
   // METHODS ////////////////////////////////////////////////////////////////
 
-  // Modify Letter by a copy - Letter is inmutable
-  // Creates a new instance of Letter with updated values for val and status,
-  // while retaining the original values if new ones are not provided.
+  /// Create a copy of the Letter with updated values
   Letter copyWith({
     String? val,
     LetterStatus? status,
   }) {
-    // Returns new letter
     return Letter(
-      value: val ?? value, // This value if not given
-      status: status ?? this.status, // This status if not given
+      value: val ?? value, // Use existing value if not provided
+      status: status ?? this.status, // Use existing status if not provided
     );
   }
 }

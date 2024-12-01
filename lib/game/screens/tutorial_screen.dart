@@ -151,9 +151,9 @@ class _TutorialScreenState extends State<TutorialScreen> {
             borderRadius: BorderRadius.circular(12.0), // Rounded corners
             boxShadow: [
               BoxShadow(
-                color: Colors.black, // Shadow color
-                blurRadius: 8.0, // Shadow blur radius
-                offset: Offset(0, 10), // Shadow offset
+                color: Colors.black,
+                blurRadius: 8.0,
+                offset: Offset(0, 1),
               ),
             ],
           ),

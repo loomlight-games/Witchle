@@ -6,32 +6,40 @@ import 'package:witchle/game/exports.dart';
 /// {@endtemplate}
 class BoardTile extends StatelessWidget {
   // PROPERTIES ////////////////////////////////////////////////////////////
+
+  // The letter object that contains the value and styling information
   final Letter letter;
 
   // CONSTRUCTORS ///////////////////////////////////////////////////////////
 
-  // Initializer
+  // Initializer for the BoardTile class
   const BoardTile({super.key, required this.letter});
 
   // WIDGET /////////////////////////////////////////////////////////////////
   @override
-  // Creates a square tile with a specific background color, border,
-  // and displays a letter in the center
+  // Builds the widget tree for the BoardTile
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.all(4),
-        height: 55,
-        width: 55,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: letter.backgroundColor,
-          border: Border.all(color: letter.borderColor),
-          borderRadius: BorderRadius.circular(8),
+      margin: const EdgeInsets.all(4), // Adds margin around the tile
+      height: 55, // Sets the height of the tile
+      width: 55, // Sets the width of the tile
+      alignment: Alignment.center, // Centers the content within the tile
+      decoration: BoxDecoration(
+        // Sets the background color based on the letter's status
+        color: letter.backgroundColor,
+        // Sets the border color based on the letter's status
+        border: Border.all(color: letter.borderColor),
+        // Applies rounded corners to the tile
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        letter.value, // Displays the letter's value
+        style: const TextStyle(
+          fontSize: 32, // Sets the font size of the text
+          fontWeight: FontWeight.bold, // Sets the font weight to bold
+          color: letterColor, // Sets the text color
         ),
-        child: Text(letter.value,
-            style: const TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: letterColor)));
+      ),
+    );
   }
 }

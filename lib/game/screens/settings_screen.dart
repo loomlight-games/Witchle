@@ -149,7 +149,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             BoxShadow(
               color: Colors.black,
               blurRadius: 8.0,
-              offset: Offset(0, 10),
+              offset: Offset(0, 1),
             ),
           ],
         ),
